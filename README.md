@@ -1,10 +1,10 @@
 # terraform-sampler
-terraformとは
+## terraformとは
 ```
 AWS CloudFormationみたいに構成管理するためのツール
 IaC(Infrastructure as Code)
 ```
-## ハローワールドしてみる
+## とりあえず触ってみる編
 インストール
 ```
 ❯ brew install terraform
@@ -13,42 +13,7 @@ IaC(Infrastructure as Code)
 ```
 ❯ terraform
 Usage: terraform [-version] [-help] <command> [args]
-
-The available commands for execution are listed below.
-The most common, useful commands are shown first, followed by
-less common or more advanced commands. If you're just getting
-started with Terraform, stick with the common commands. For the
-other commands, please read the help and docs before usage.
-
-Common commands:
-    apply              Builds or changes infrastructure
-    console            Interactive console for Terraform interpolations
-    destroy            Destroy Terraform-managed infrastructure
-    env                Workspace management
-    fmt                Rewrites config files to canonical format
-    get                Download and install modules for the configuration
-    graph              Create a visual graph of Terraform resources
-    import             Import existing infrastructure into Terraform
-    init               Initialize a Terraform working directory
-    login              Obtain and save credentials for a remote host
-    logout             Remove locally-stored credentials for a remote host
-    output             Read an output from a state file
-    plan               Generate and show an execution plan
-    providers          Prints a tree of the providers used in the configuration
-    refresh            Update local state file against real resources
-    show               Inspect Terraform state or plan
-    taint              Manually mark a resource for recreation
-    untaint            Manually unmark a resource as tainted
-    validate           Validates the Terraform files
-    version            Prints the Terraform version
-    workspace          Workspace management
-
-All other commands:
-    0.12upgrade        Rewrites pre-0.12 module source code for v0.12
-    debug              Debug output management (experimental)
-    force-unlock       Manually unlock the terraform state
-    push               Obsolete command for Terraform Enterprise legacy (v1)
-    state              Advanced state management
+（略）
 ```
 作業環境作る
 ```
@@ -104,11 +69,19 @@ resource "aws_instance" "example" {
 ```
 ❯ terraform show
 ```
+構文チェックコマンド
+```
+❯ terraform validate
+```
+スタイル整形
+```
+❯ terraform fmt
+```
 リソースを削除するコマンド
 ```
 ❯ terraform destroy
 ```
-## .tfファイルを上書く
+## .tfファイル上書きしてみる編
 terraformはのサイクルは`plan→apply→show`の順番。planで.tfファイルが更新されてるか確認し、applyで適用し、showで現在のリソースの状態を確認する。早速.tfファイルを編集してみる。80番ポートを開けたガバガバセキュリティグループを追加した
 
 ```example.tf
@@ -170,9 +143,24 @@ can't guarantee that exactly these actions will be performed if
 ```
 ❯ terraform apply
 ```
-ダッシュボード確認するとセキュリティグループ紐付けられたEC2が確認できる
-
-お遊びリソースなので削除
+ダッシュボード確認するとセキュリティグループ紐付けられたEC2が確認できる。お遊びリソースなので削除
 ```
 ❯ terraform destroy
+```
+## 本番でも使えそうな構成作ってみる編
+参考：https://qiita.com/pokotyan/items/da3d4a0a8cd8dfacbd32
+参考：https://blog.mzumi.com/post/2016/09/01/terraform-private-subnet/
+.tfファイルはリソースごとに分けた
+```
+❯ ls
+README.md            provider.tf          route_table.tf
+igw.tf               route.tf             subnet.tf
+nat.tf               route_association.tf vpc.tf
+```
+使い方
+```
+# 使う前に"terraform"って名前のIAMユーザー作っといてください
+❯ git clone [this repository]
+❯ terraform init
+❯ terraform apply
 ```
