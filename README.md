@@ -148,7 +148,7 @@ can't guarantee that exactly these actions will be performed if
 ❯ terraform destroy
 ```
 ## 本番でも使えそうな構成作ってみる編
-.tfファイルはリソースごとに分けた
+### .tfファイルはリソースごとに分けた
 ```
 ❯ ls
 README.md            provider.tf          route_table.tf
@@ -156,7 +156,7 @@ igw.tf               route.tf             subnet.tf
 nat.tf               route_association.tf vpc.tf
 ```
 ![image](https://user-images.githubusercontent.com/18514782/75225731-8ac1a180-57ee-11ea-959d-717edaa500ad.png)
-使い方
+### 使い方
 ```
 # 使う前に"terraform"って名前のIAMユーザー作っといてください
 ❯ git clone [this repository]
