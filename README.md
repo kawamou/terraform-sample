@@ -148,8 +148,6 @@ can't guarantee that exactly these actions will be performed if
 ❯ terraform destroy
 ```
 ## 本番でも使えそうな構成作ってみる編
-参考：https://qiita.com/pokotyan/items/da3d4a0a8cd8dfacbd32
-参考：https://blog.mzumi.com/post/2016/09/01/terraform-private-subnet/
 .tfファイルはリソースごとに分けた
 ```
 ❯ ls
@@ -164,3 +162,6 @@ nat.tf               route_association.tf vpc.tf
 ❯ terraform init
 ❯ terraform apply
 ```
+## 参考
+- https://qiita.com/pokotyan/items/da3d4a0a8cd8dfacbd32
+- https://blog.mzumi.com/post/2016/09/01/terraform-private-subnet/
