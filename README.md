@@ -76,14 +76,11 @@ Default output format [None]: json
 region = ap-northeast-1
 output = json
 ```
-terraformのファイル作る
-
 .tfファイル内のresourceに記述したものがリソースとして管理される
 
-profileに先程作成したユーザ名を記入
 ```example.tf
 provider "aws" {
-  profile    = "USER"
+  profile    = "IAMユーザー名"
   region     = "ap-northeast-1"
 }
 
@@ -92,21 +89,12 @@ resource "aws_instance" "example" {
     instance_type = "t2.micro"
 }
 ```
-次にterraformワークスペースを初期化する
 
-initコマンドで.tfファイルで利用してるpluginのダウンロード処理が走る
-
-plugin：aws providerとか
-
-ダウンロードしたファイル群は直下の.terraformに入る
+次にterraformワークスペースを初期化する。initコマンドで.tfファイルで利用してるpluginのダウンロード処理が走る。ダウンロードしたファイル群は直下の.terraformに入る
 ```
 ❯ terraform init
 ```
-.tfファイルに記載された情報を元にリソースを作成する
-
-リソースが作成されるとterraform.stateに作成されたリソースに関する情報が保存される
-
-2度目以降の実行後には、1世代前のものがterraform.tfstate.backupに保存される
+.tfファイルに記載された情報を元にリソースを作成する。リソースが作成されると`terraform.state`に作成されたリソースに関する情報が保存される。2度目以降の実行後には、1世代前のものが`terraform.tfstate.backup`に保存される
 ```
 ❯ terraform apply
 ```
@@ -121,13 +109,8 @@ plugin：aws providerとか
 ❯ terraform destroy
 ```
 ## .tfファイルを上書く
-terraformはのサイクルはplan→apply→showの順番
+terraformはのサイクルは`plan→apply→show`の順番。planで.tfファイルが更新されてるか確認し、applyで適用し、showで現在のリソースの状態を確認する。早速.tfファイルを編集してみる。80番ポートを開けたガバガバセキュリティグループを追加した
 
-planで.tfファイルが更新されてるか確認し、applyで適用し、showで現在のリソースの状態を確認する
-
-早速.tfファイルを編集してみる
-
-80番ポートを開けたガバガバセキュリティグループを追加した
 ```example.tf
 provider "aws" {
   profile    = "terraform"
@@ -162,6 +145,7 @@ resource "aws_security_group" "sg" {
   }
 }
 ```
+
 planで確認してみると確かに編集されたことが確認できる
 ```
 ❯ terraform plan
